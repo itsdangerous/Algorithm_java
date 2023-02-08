@@ -2,7 +2,7 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 
-public class Main_2609_2 {
+public class Q2609 {
     static int N;
     static int M;
     static int a;

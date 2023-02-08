@@ -4,7 +4,7 @@ import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.StringTokenizer;
 
-public class Main_1244 {
+public class Q1244 {
     public static void main(String[] args) throws NumberFormatException, IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         int N = Integer.parseInt(br.readLine());

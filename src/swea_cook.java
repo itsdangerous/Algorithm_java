@@ -2,14 +2,11 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
-
-public class swea_cook {
+public class SWEA_COOK {
     static boolean[] visited;
-    static int whole;
     static int N;
     static int R;
     static int[] nums;
-    static int A, B;
     static int[][] map;
     static int[] p;
     static int min;
@@ -26,15 +23,12 @@ public class swea_cook {
             visited=new boolean[N];
             nums=new int[R];
             p = new int[N];
-            whole = 0;
             min = 20000;
             for (int j = 0; j < N; j++) {
                 String[] str = br.readLine().split(" ");
                 for (int k = 0; k < N; k++) {
                     map[j][k] = Integer.parseInt(str[k]);
-                    whole += map[j][k];
                 }
-
 
             }
             for (int j = 0; j < N; j++) {
@@ -42,7 +36,7 @@ public class swea_cook {
             }
 
             combi(0, 0);
-            System.out.println("#"+i+ " "+min);
+            System.out.print("#"+i+ " "+min);
 
         }
     }
@@ -53,10 +47,12 @@ public class swea_cook {
             int hap_A = 0;
             int hap_B = 0;
 
+//            System.out.println(Arrays.toString(nums)); // 뽑은거
 
             ArrayList<Integer> b_nums = new ArrayList<>();
             for (int i = 0; i < N; i++) {
                 if (!visited[i]) {
+//                    System.out.println(p[i]+" ");
                     b_nums.add(p[i]);
                 }
             }
@@ -89,6 +85,7 @@ public class swea_cook {
             visited[i]=true;
             nums[depth]=p[i];
             combi(depth+1, i+1);
+//            nums[depth]=0; // 날려도 됨
             visited[i]=false;
         }
     }
