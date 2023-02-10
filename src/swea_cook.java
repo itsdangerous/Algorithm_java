@@ -2,7 +2,7 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
-public class SWEA_COOK {
+public class swea_cook {
     static boolean[] visited;
     static int N;
     static int R;
