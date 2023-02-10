@@ -45,9 +45,7 @@ public class Q4963 {
                     }
                 }
             }
-
             System.out.println(result);
-
         }
     }
 
@@ -56,12 +54,11 @@ public class Q4963 {
         deque.add(new int[]{y, x});
 
         while (!deque.isEmpty()) {
-            int[] tmp = deque.poll();
-//            y = tmp[0];
-//            x = tmp[1];
+            int[] t = deque.poll();
+
             for (int i = 0; i < 8; i++) {
-                int nx = tmp[1] + dx[i];
-                int ny = tmp[0] + dy[i];
+                int nx = t[0] + dx[i];
+                int ny = t[1] + dy[i];
 
                 if (nx < 0 || nx >= w || ny < 0 || ny >= h) {
                     continue;
