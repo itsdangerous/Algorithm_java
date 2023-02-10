@@ -28,8 +28,6 @@ public class Q2606 {
             int a = Integer.parseInt(str[0]);
             int b = Integer.parseInt(str[1]);
 
-//            int from = Math.min(a, b);
-//            int to = Math.max(a,b);
             if (!list[a].contains(b)) {
                 list[a].add(b);
             }
