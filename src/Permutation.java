@@ -5,7 +5,6 @@ import java.io.InputStreamReader;
 // N, R 한줄 입력 --> nPr
 
 public class Permutation {
-
     static int[] p;
     static int N;
     static int R;
@@ -45,7 +44,6 @@ public class Permutation {
 
         for (int i = 0; i < N; i++) {
             if(visited[i]) continue;
-
             visited[i] = true;
             nums[cnt] = p[i];
             perm(cnt + 1);

@@ -24,11 +24,10 @@ public class Q10989 {
 
         for (int i = 0; i < 10001; i++) {
             if (arr.get(i) != null) {
-                sb.append((i + "\n").repeat(Math.max(0, arr.get(i)))); // repeat메서드를 이용하여 0부터 arr.get(i)만큼 돌며 sb에 출력할 내용 추가
-
-//            for (int j = 0; j < arr.get(i); j++) {
-//                sb.append(i + "\n");
-//            }
+                sb.append(arr.get(i)).append(" ");
+            }
+            else {
+                sb.append(0+" ");
             }
         }
         System.out.print(sb);

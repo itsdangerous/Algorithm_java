@@ -35,9 +35,9 @@ public class Combination {
         for (int i = start; i < N; i++) {
             if(visited[i]) continue;
             // 방문한적 없다. 12 3 12 4 12 5
-            visited[i]=true;
+            visited[i]=true; // combi는 필요 없음. 하지만, 뽑히지 않은것을 구할 때는 필요함.
             nums[depth]=p[i];
-            combi(depth+1, i+1);
+            combi(depth+1, i+1); //중복조합은 i+1을 i로 바꿔주면 댐
 //            nums[depth]=0; // 날려도 됨
             visited[i]=false;
         }
