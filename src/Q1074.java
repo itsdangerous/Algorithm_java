@@ -1,41 +1,41 @@
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.util.StringTokenizer;
 
 public class Q1074 {
-    static int[][] map;
     static int count = 0;
-    static int rr;
-    static int cc;
 
     public static void main(String[] args) throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        StringTokenizer st = new StringTokenizer(br.readLine());
+        int N = Integer.parseInt(st.nextToken());
+        int r = Integer.parseInt(st.nextToken()); //행
+        int c = Integer.parseInt(st.nextToken()); //열
+        int size = (int) Math.pow(2, N); //한 변의 사이즈
 
-        String[] s = br.readLine().split(" ");
-        int n = Integer.parseInt(s[0]);
-        rr = Integer.parseInt(s[1]);
-        cc = Integer.parseInt(s[2]);
-
-        z(0, 0, 1<<n);
+        find(size, r, c);
         System.out.println(count);
-
     }
-    static void z(int r, int c, int width) {
-        if (rr == r && cc == c) {
-            System.out.println(count);
+
+    private static void find(int size, int r, int c) {
+        if(size == 1)
             return;
-        }
 
-        if (r >= rr && r < rr + width && c >= cc && c < cc + width) {
-            int w = width/2;
-            z(rr, cc, w);
-            z(rr, cc + w, w);
-            z(rr + w, cc, w);
-            z(rr + w, cc + w, w);
-        } else {
-            count += cc * width + r;
+        if(r < size/2 && c < size/2) {
+            find(size/2, r, c);
         }
-
+        else if(r < size/2 && c >= size/2) {
+            count += size * size / 4;
+            find(size/2, r, c - size/2);
+        }
+        else if(r >= size/2 && c < size/2) {
+            count += (size * size / 4) * 2;
+            find(size/2, r - size/2, c);
+        }
+        else {
+            count += (size * size / 4) * 3;
+            find(size/2, r - size/2, c - size/2);
+        }
     }
-
 }
