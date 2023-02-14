@@ -28,7 +28,7 @@ public class Q2170 {
         int result = 0;
 
         for (int i = 1; i < N; i++) {
-            if (arr[i][0] <= arr[i - 1][1]) {
+            if (arr[i][0] <= end) {
                 if (arr[i][1] > end) {
                     end = arr[i][1];
                 }
@@ -39,9 +39,9 @@ public class Q2170 {
                 end = arr[i][1];
             }
         }
-        if (arr[N - 2][1] < start) {
-            result += end-start;
-        }
+
+        result += end-start;
+
         print(result);
         }
 
