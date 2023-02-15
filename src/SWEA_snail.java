@@ -22,7 +22,7 @@ public class SWEA_snail {
                 if (0 > row + dr[t] || row+dr[t] >= N || 0 > col+dc[t] || col+dc[t] >= N || map[row+dr[t]][col+dc[t]] != 0) {
                     t += 1;
                     if (t >= 4) {
-                        t = t % 4;
+                        t = 0;
                     }
                 }
                 map[row+dr[t]][col+dc[t]] = k;

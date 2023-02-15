@@ -97,6 +97,7 @@ public class SWEA_battlefield {
                     play(cnt+1, r,c);
                     k++;
                 }
+
             }
 
             if (heading == 'R') {
