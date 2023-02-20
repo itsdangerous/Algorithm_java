@@ -1,43 +1,23 @@
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.util.Arrays;
+import java.util.ArrayList;
 
-public class Test {
-
-    static int[] p = {1, 2, 3, 4, 5, 6};
-    static int N = p.length;
-    static int R;
-    static int count;
-    static int[] nums;
-    static boolean[] visited;
+public class Test{
     public static void main(String[] args) throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-        R = 3;
-        count = 0;
-        nums = new int[R];
-        visited = new boolean[N];
-        perm(0, 0);
-        System.out.println(count);
+
+        ArrayList<Integer> arr = new ArrayList<>();
+        arr.add(1);
+        arr.add(2);
+
+        arr.clear();
+        System.out.println(arr);
+        System.out.println(arr.size());
+
+        int[] a = new int[0];
+        System.out.println(a[0]);
+        arr.get(i);
     }
 
-    static void perm(int cnt, int start) {
-        if (cnt == R) {
-            System.out.println(Arrays.toString(nums));
-            count++;
-
-            return;
-        }
-        for (int i = start; i < N; i++) {
-            if (visited[i]) {
-                continue;
-            }
-
-            visited[i] = true;
-            nums[cnt] = p[i];
-            perm(cnt + 1, i+1);
-            nums[cnt] = 0;
-            visited[i] = false;
-        }
-    }
 }
