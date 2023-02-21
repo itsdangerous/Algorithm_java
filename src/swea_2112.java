@@ -32,7 +32,6 @@ public class swea_2112 {
             }
 
             combi(0, 0);
-
             System.out.println("#"+t+" "+answer);
         }
     }
@@ -43,7 +42,7 @@ public class swea_2112 {
         }
 
         if (isValid()) {
-            answer = Math.min(answer, cnt);
+            System.out.println(cnt);
         }
 
         for (int i = start; i < N; i++) {
