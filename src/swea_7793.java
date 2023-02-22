@@ -40,37 +40,81 @@ public class swea_7793 {
                         devils.add(new int[]{i, j});
                     }
                     if (map[i][j] == 'S') {
-                        sooyeon.add(new int[]{i, j});
+                        sooyeon.add(new int[]{i, j, 0});
                     }
                 }
             }
+
+            System.out.printf("#%d ",t);
+            solve();
 
         }
 
     }
 
-    static void moveSooyeon() {
+    static void solve() {
+
+        while (true) {
+            if (sooyeon.size() == 0) {
+                System.out.println("GAME OVER");
+                return;
+            }
+            moveDevil();
+            int cnt = moveSooyeon();
+            if (cnt > 0) {
+                System.out.println(cnt);
+                return;
+            }
+        }
+    }
+
+    static int moveSooyeon() {
 
         int size = sooyeon.size();
         while (size-- > 0) {
             int[] point = sooyeon.poll();
             int r = point[0];
             int c = point[1];
+            int distance = point[2];
             for (int i = 0; i < 4; i++) {
                 int nr = r + dr[i];
                 int nc = c + dc[i];
                 if(!check(nr, nc)) continue;
-//                if(nr == dst_r && nc == dst_c) return
+                if (nr == dst_r && nc == dst_c) {
+                    return distance + 1;
+                }
                 if (map[nr][nc] == '.') {
                     map[nr][nc] = 'S';
-                    sooyeon.add()
+                    sooyeon.add(new int[]{nr, nc, distance+1});
                 }
-
             }
 
         }
+        return -1;
 
     }
+
+    static void moveDevil() {
+
+        int size = devils.size();
+        while (size-- > 0) {
+            int[] point = devils.poll();
+            int r = point[0];
+            int c = point[1];
+            for (int i = 0; i < 4; i++) {
+                int nr = r + dr[i];
+                int nc = c + dc[i];
+                if(!check(nr, nc)) continue;
+                if (map[nr][nc] == '.'||map[nr][nc] == 'S') {
+                    map[nr][nc] = '*';
+
+                    devils.add(new int[]{nr, nc});
+                }
+            }
+        }
+    }
+
+
 
 
     static boolean check(int r, int c) {
