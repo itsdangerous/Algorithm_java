@@ -27,8 +27,6 @@ public class Q1074_2 {
         }
         else if(r < size/2 && c >= size/2) {
             count += size * size / 4;
-            System.out.println("r = " + r + ", c = " + c);
-            System.out.println("size = " + size);
             find(size/2, r, c - size/2);
         }
         else if(r >= size/2 && c < size/2) {

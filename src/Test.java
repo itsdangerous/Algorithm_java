@@ -7,17 +7,10 @@
 //    public static void main(String[] args) throws IOException {
 //        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 //
-//        ArrayList<Integer> arr = new ArrayList<>();
-//        arr.add(1);
-//        arr.add(2);
+//        ArrayList<Integer> list = new ArrayList<>();
+//        int[] arr = new int[2];
+//        System.out.println(arr[0]);
 //
-//        arr.clear();
-//        System.out.println(arr);
-//        System.out.println(arr.size());
-//
-//        int[] a = new int[0];
-//        System.out.println(a[0]);
-//        arr.get(i);
 //    }
 //
 //}
