@@ -4,7 +4,7 @@ import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.StringTokenizer;
 
-public class Q5644 {
+public class swea_5644 {
     static int M, A;
     static int[] dr = {0, -1, 0, 1, 0};
     static int[] dc = {0, 0, 1, 0, -1};
