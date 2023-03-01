@@ -1,4 +1,4 @@
-public class Pascal_combination {
+public class form_PascalCombination {
     public static void main(String[] args) {
         for (int i = 0; i < 21; i++) {
             System.out.printf("20C%d=%d\n", i, nCr(20, i));

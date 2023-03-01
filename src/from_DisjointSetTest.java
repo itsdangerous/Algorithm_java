@@ -3,7 +3,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.Arrays;
 
-public class DisjointSetTest {
+public class from_DisjointSetTest {
     static int[] p;
     static int[] rank;
     static int N;

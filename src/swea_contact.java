@@ -3,7 +3,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.*;
 
-public class Test {
+public class swea_contact {
 
     static ArrayList<Integer>[] list;
     static int V, start;
@@ -40,7 +40,6 @@ public class Test {
     }
 
     static int bfs() {
-3
         que = new LinkedList<>();
         que.add(start);
         visited[start] = true;

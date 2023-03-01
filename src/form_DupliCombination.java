@@ -1,42 +1,51 @@
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.util.Arrays;
 
-public class Test_dupl_Combination {
+public class form_DupliCombination {
 
-    static int[] p = {1, 2, 3, 4, 5};
-    static int N = p.length;
-    static int R;
-    static int[] nums;
+    static int[] p, nums;
+    static int N, R, count;
     static boolean[] visited;
-    static int count;
 
     public static void main(String[] args) throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-
-        System.out.println("R 값 입력 : >>");
-        R = Integer.parseInt(br.readLine());
+        N = Integer.parseInt(br.readLine());
+        R = 3;
+        p = new int[N];
         nums = new int[R];
         visited = new boolean[N];
         count = 0;
-        combi(0, 0);
+        for (int i = 0; i < N; i++) {
+            p[i] = i+1;
+        }
+        perm(0, 0);
         System.out.println(count);
+
     }
 
-    static void combi(int cnt, int start) {
+    static void perm(int cnt, int start) {
         if (cnt == R) {
-            System.out.println(Arrays.toString(nums));
             count++;
+            //로직
+            printArr(nums);
             return;
         }
 
         for (int i = start; i < N; i++) {
             visited[i] = true;
             nums[cnt] = p[i];
-            combi(cnt+1, i);
+            perm(cnt + 1, i);
             nums[cnt] = 0;
             visited[i] = false;
         }
     }
+
+    static void printArr(int[] arr) {
+        for (int i = 0; i < arr.length; i++) {
+            System.out.print(arr[i] + " ");
+        }
+        System.out.println();
+    }
+
 }

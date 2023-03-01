@@ -1,6 +1,6 @@
 import java.util.Arrays;
 
-public class NextPermutation {
+public class form_NextPermutation {
 
     static int[] p = {1, 2, 3, 4, 5, 6};
     static int count;

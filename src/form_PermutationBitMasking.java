@@ -4,7 +4,7 @@ import java.io.InputStreamReader;
 import java.util.Arrays;
 import java.util.StringTokenizer;
 
-public class Permutation_bitMasking {
+public class form_PermutationBitMasking {
     static int[] numbers, input;
     static int N,R;
 

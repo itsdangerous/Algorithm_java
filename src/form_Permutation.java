@@ -2,48 +2,39 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 
-// N, R 한줄 입력 --> nPr
+public class form_Permutation {
 
-public class Permutation {
-    static int[] p;
-    static int N;
-    static int R;
-    static int[] nums;
+    static int[] p, nums;
+    static int N, R, count;
     static boolean[] visited;
-    static int count;
 
     public static void main(String[] args) throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-
-        String[] str = br.readLine().split(" ");
-
-        N = Integer.parseInt(str[0]);
-        R = Integer.parseInt(str[1]);
-
+        N = Integer.parseInt(br.readLine());
+        R = 3;
         p = new int[N];
+        nums = new int[R];
+        visited = new boolean[N];
+        count = 0;
         for (int i = 0; i < N; i++) {
             p[i] = i+1;
         }
-
-        nums = new int[R];
-
-        visited = new boolean[N];
-        count = 0;
         perm(0);
+        System.out.println(count);
 
     }
+
     static void perm(int cnt) {
         if (cnt == R) {
-
-            for (int i : nums) {
-                System.out.print(i+" ");
-            }
-            System.out.println();
+            count++;
+            //로직
+            printArr(nums);
             return;
         }
 
         for (int i = 0; i < N; i++) {
             if(visited[i]) continue;
+
             visited[i] = true;
             nums[cnt] = p[i];
             perm(cnt + 1);
@@ -51,4 +42,12 @@ public class Permutation {
             visited[i] = false;
         }
     }
+
+    static void printArr(int[] arr) {
+        for (int i = 0; i < arr.length; i++) {
+            System.out.print(arr[i] + " ");
+        }
+        System.out.println();
+    }
+
 }

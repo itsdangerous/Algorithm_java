@@ -1,5 +1,5 @@
 import java.util.Arrays;
-public class NextCombination {
+public class form_NextCombination {
     static int[] p = {0,0,0,1,1,1}; // 6C3;
     static int[] n = {1,2,3,4,5,6}; // 65 4/6;
     static int count;

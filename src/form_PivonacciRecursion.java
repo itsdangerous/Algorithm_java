@@ -1,4 +1,4 @@
-public class Pivonacci_recursion {
+public class form_PivonacciRecursion {
     public static void main(String[] args) {
         for (int i = 0; i < 30; i++) {
             System.out.printf("pivo(%d) = %d\n", i, pivo(i));
