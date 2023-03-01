@@ -38,20 +38,8 @@ public class Q1189 {
 
         if (cnt == K-1 && r == 0 && c == M - 1) {
             count++;
-
-            //디버깅
-//            for (int j = 0; j < N; j++) {
-//                for (int k = 0; k < M; k++) {
-//                    System.out.print(map[j][k]+" ");
-//                }
-//                System.out.println();
-//            }
-//            System.out.println();
-
             return;
-
         }
-
         for (int i = 0; i < 4; i++) {
             int nr = r + dr[i];
             int nc = c + dc[i];
@@ -65,24 +53,11 @@ public class Q1189 {
 
                 }
             }
-
-
         }
-
     }
 
     public static boolean check(int r, int c) {
         return 0 <= r && r < N && 0 <= c && c < M;
-    }
-
-    public static void print(Object... args) {
-        StringBuilder sb = new StringBuilder();
-
-        for (Object arg : args) {
-            sb.append(arg).append(" ");
-        }
-
-        System.out.println(sb);
     }
 
 }
