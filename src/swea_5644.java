@@ -2,6 +2,7 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
+import java.util.Objects;
 import java.util.StringTokenizer;
 
 public class swea_5644 {
@@ -91,13 +92,12 @@ public class swea_5644 {
             int now = 0;
             if (BCS_A.size() != 0) {
                 if (BCS_B.size() != 0) {
-                    for (int j = 0; j < BCS_A.size(); j++) {
-                        for (int k = 0; k < BCS_B.size(); k++) {
-                            if(BCS_A.get(j) != BCS_B.get(k)) {
-                                now = Math.max(now, Cs[BCS_A.get(j)][3] + Cs[BCS_B.get(k)][3]);
-                            }
-                            else {
-                                now = Math.max(now, Cs[BCS_A.get(j)][3]);
+                    for (Integer value : BCS_A) {
+                        for (Integer integer : BCS_B) {
+                            if (!Objects.equals(value, integer)) {
+                                now = Math.max(now, Cs[value][3] + Cs[integer][3]);
+                            } else {
+                                now = Math.max(now, Cs[value][3]);
                             }
                         }
                     }
