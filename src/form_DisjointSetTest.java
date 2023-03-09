@@ -27,7 +27,6 @@ public class form_DisjointSetTest {
             }
         }
     }
-
     private static int find(int x) {
         if(x==p[x]) return x; // return p[x]
         return p[x] = find(p[x]); // 중요. x에 부모를 넣어서 최종 부모를 찾는다.
