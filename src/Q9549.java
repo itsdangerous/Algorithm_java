@@ -14,40 +14,48 @@ public class Q9549 {
             String planText = br.readLine();
             int size = planText.length();
             int[] alpha = new int[26]; // 0번째 인덱스부터 a,b,c,...z
-            for (int j = 0; j < size; j++) {
-                char key = planText.charAt(j);
-                alpha[key-'0'-49]++;
-            }
-            boolean isOK = false;
-            for (int j = 0; j <= encryptText.length() - size; j++) {
-                int[] filter = new int[26];
-                System.arraycopy(alpha, 0, filter, 0, alpha.length);
-                String lookStr = encryptText.substring(j, j + size);
+            alpha = makeArr(planText);
 
-                if (Search(lookStr, filter)) {
-                    isOK = true;
+            int[] filter = new int[26];
+            for (int k = 0; k < size; k++) {
+                filter[encryptText.charAt(k)-'0'-49]++;
+            }
+            if (check(filter, alpha)) {
+                System.out.println("YES");
+                continue;
+            }
+            boolean isOk = false;
+            for (int j = 1; j < encryptText.length() - size + 1; j++) {
+                filter[encryptText.charAt(j-1)-'0'-49]--;
+                filter[encryptText.charAt(j+size-1)-'0'-49]++;
+                if(check(filter, alpha)) {
+                    isOk = true;
                     break;
                 }
             }
-
-            if (isOK) {
-                System.out.println("YES");
-            }
-            else {
-                System.out.println("NO");
-            }
+            if(isOk) System.out.println("YES");
+            else System.out.println("NO");
 
         }
 
     }
 
-    public static boolean Search(String str, int[] filter) {
-        for (int i = 0; i < str.length(); i++) {
-            char c = str.charAt(i);
-            int index = c-'0'-49;
-            if(filter[index] == 0) return false;
-            if(filter)
+    private static boolean check(int[] filter, int[] alpha) {
+        for (int i = 0; i < 26; i++) {
+            if (filter[i] != alpha[i]) {
+                return false;
+            }
         }
         return true;
+    }
+
+    private static int[] makeArr(String planeText) {
+        int[] arr = new int[26];
+        for (int i = 0; i < planeText.length(); i++) {
+            char c = planeText.charAt(i);
+            int index = c-'0'-49;
+            arr[index]++;
+        }
+        return arr;
     }
 }
