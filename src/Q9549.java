@@ -1,10 +1,6 @@
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.time.Year;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.StringTokenizer;
 
 public class Q9549 {
     static int T;
@@ -50,7 +46,7 @@ public class Q9549 {
             char c = str.charAt(i);
             int index = c-'0'-49;
             if(filter[index] == 0) return false;
-            filter[index]--;
+            if(filter)
         }
         return true;
     }
