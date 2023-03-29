@@ -5,86 +5,126 @@ import java.util.PriorityQueue;
 import java.util.StringTokenizer;
 
 public class Q1774 {
+    static int N,M;
+    static int[] parent;
+    static int[] rank;
+    static Point[] points;
+    static PriorityQueue<Edge> pq;
 
-    static int V, E;
-    static PriorityQueue<Edge> points;
-    static class Edge implements Comparable<Edge>{
-        int s;
-        int e;
-        int w;
-        public Edge(int s, int e, int w) {
-            this.s = s;
-            this.e = e;
-            this.w = w;
+    static class Point {
+        int index;
+        int x;
+        int y;
+
+        public Point(int index, int x, int y) {
+            this.index = index;
+            this.x = x;
+            this.y = y;
         }
+    }
+
+    static class Edge implements Comparable<Edge>{
+        Point startPoint;
+        Point endPoint;
+        double distance;
+
+        public Edge(Point startPoint, Point endPoint, double distance) {
+            this.startPoint = startPoint;
+            this.endPoint = endPoint;
+            this.distance = distance;
+        }
+
         @Override
         public int compareTo(Edge o) {
-            return Integer.compare(this.w, o.w);
+            return Double.compare(this.distance, o.distance);
         }
-        @Override
-        public String toString() {
-            return "Edge [s=" + s + ", e=" + e + ", w=" + w + "]";
-        }
-
     }
-    static long min;
-    static int [] p;
-    static int [] r;
 
     public static void main(String[] args) throws IOException {
-        BufferedReader br=new BufferedReader(
-                new InputStreamReader(System.in));
-        StringTokenizer st=new StringTokenizer(br.readLine());
-        V=Integer.parseInt(st.nextToken());
-        E=Integer.parseInt(st.nextToken());
-        points=new PriorityQueue<>();
-        for (int i = 0; i < E; i++) {
-            st=new StringTokenizer(br.readLine());
-            int s=Integer.parseInt(st.nextToken());
-            int e=Integer.parseInt(st.nextToken());
-            int w=Integer.parseInt(st.nextToken());
-            points.offer(new Edge(s,e, w));
-        }
-        p=new int[V+1];
-        r=new int[V+1];
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+
+        StringTokenizer st = new StringTokenizer(br.readLine());
+        N = Integer.parseInt(st.nextToken());
+        M = Integer.parseInt(st.nextToken());
+
+        parent = new int[N + 1];
+        rank = new int[N + 1];
+        pq = new PriorityQueue<>();
+        points = new Point[N+1];
         makeSet();
-        int cnt=0;
-        min=0;
-        while(cnt!=V-1) {
-            Edge edge=points.poll();
-            //System.out.println(edge);
-            if(union(edge.s, edge.e)) {
-                cnt++;
-                min+=edge.w;
+
+
+        for (int i = 1; i < N + 1; i++) {
+            st = new StringTokenizer(br.readLine());
+            int x = Integer.parseInt(st.nextToken());
+            int y = Integer.parseInt(st.nextToken());
+            Point point = new Point(i, x, y);
+            points[i] = point;
+        }
+
+        for (int i = 1; i < N; i++) {
+            for (int j = i + 1; j < N + 1; j++) {
+                double dist = getDistance(points[i], points[j]);
+                Edge edge = new Edge(points[i], points[j], dist);
+                pq.offer(edge);
             }
         }
-        System.out.println(min);
-    }
-    //1~N까지
-    private static void makeSet() {
-        for (int i = 0; i < V+1; i++) {
-            p[i]=i;
+
+        for (int i = 0; i < M; i++) {
+            st = new StringTokenizer(br.readLine());
+            int p1 = Integer.parseInt(st.nextToken());
+            int p2 = Integer.parseInt(st.nextToken());
+            union(p1, p2);
         }
-        for (int i = 0; i < V+1; i++) {
-            r[i]=1;
+
+        double min = 0;
+        while (!pq.isEmpty()) {
+            Edge edge = pq.poll();
+            if (union(edge.startPoint.index, edge.endPoint.index)) {
+                min += edge.distance;
+            }
         }
-    }
-    private static boolean union(int x, int y) {
-        x=find(x);
-        y=find(y);
-        if(x==y) return false;// 싸이클 있다.
-        if (r[x]<r[y]) {
-            r[y]+=r[x];
-            p[x]=y;
-        } else {
-            r[x]+=r[y];
-            p[y]=x;
-        }
-        return true;
+
+        System.out.printf("%.2f\n", min);
+
     }
 
-    private static int find(int x) {
-        if (x==p[x])return p[x];
-        else return p[x]=find(p[x]); // 최종 BOSS
+    static void makeSet() {
+        for (int i = 0; i < N + 1; i++) {
+            parent[i] = i;
+            rank[i] = 1;
+        }
     }
+
+    static int find(int x) {
+        if (x == parent[x]) return x;
+        return parent[x] = find(parent[x]);
+    }
+
+    static boolean union(int x, int y) {
+        int px = find(x);
+        int py = find(y);
+
+        if (px == py) return false;
+
+        if (rank[px] >= rank[py]) {
+            parent[py] = px;
+            rank[px]++;
+        }
+        else {
+            parent[px] = py;
+            rank[py]++;
+        }
+
+        return true;
+
+    }
+
+    static double getDistance(Point a, Point b) {
+        double xx = Math.pow(Math.abs(a.x - b.x),2);
+        double yy = Math.pow(Math.abs(a.y - b.y),2);
+
+        return Math.sqrt(xx + yy);
+    }
+
 }

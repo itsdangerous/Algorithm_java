@@ -58,12 +58,12 @@ public class Q4195 {
         return parent[x] = find(parent[x]);
     }
 
-    private static void union(int x, int y) {
+    private static boolean union(int x, int y) {
         int px = find(x);
         int py = find(y);
 
         if (px == py) { // 만약 이미 연결되어 있다면 union하지 말아요
-            return;
+            return false;
         }
 
         if (rank[px] >= rank[py]) {
@@ -73,6 +73,8 @@ public class Q4195 {
             parent[px] = py;
             rank[py] += rank[px];
         }
+
+        return true;
     }
     
 }

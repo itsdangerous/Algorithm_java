@@ -65,6 +65,7 @@ public class Q6497 {
                 }
             }
             System.out.println(total - min);
+
         }
     }
     //1~N까지
