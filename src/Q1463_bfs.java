@@ -12,7 +12,7 @@ public class Q1463_bfs {
     public static void main(String[] args) throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         N = Integer.parseInt(br.readLine());
-        visited = new boolean[1000001];
+        visited = new boolean[N+1];
         int answer = bfs();
         System.out.println(answer);
 

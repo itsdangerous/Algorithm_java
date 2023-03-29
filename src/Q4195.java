@@ -41,6 +41,7 @@ public class Q4195 {
                 // 왼쪽 문자열이나 오른쪽 문자열에 대해 수행해도 상관없음
                 // 문자열의 root노드의 rank를 출력
                 System.out.println(rank[find(map.get(strArr[0]))]);
+
             }
 
         }
