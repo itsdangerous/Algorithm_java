@@ -1,5 +1,7 @@
 import java.util.Arrays;
 
+import static java.lang.System.*;
+
 public class form_NextPermutation {
 
     static int[] p = {1, 2, 3, 4, 5, 6};
@@ -10,9 +12,9 @@ public class form_NextPermutation {
 
         do {
             count++;
-            System.out.println(Arrays.toString(p)); // copy by reference;
+            out.println(Arrays.toString(p)); // copy by reference;
         } while (np(N - 1));
-        System.out.println(count);
+        out.println(count);
 
     }
 
