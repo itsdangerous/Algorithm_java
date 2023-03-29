@@ -8,6 +8,7 @@ public class Q1463_DP {
     static int[] dp;
 
     public static void main(String[] args) throws IOException {
+
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         N = Integer.parseInt(br.readLine());
         dp = new int[N+1];

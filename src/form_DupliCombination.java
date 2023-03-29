@@ -9,6 +9,7 @@ public class form_DupliCombination {
     static boolean[] visited;
 
     public static void main(String[] args) throws IOException {
+
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         N = Integer.parseInt(br.readLine());
         R = 3;
