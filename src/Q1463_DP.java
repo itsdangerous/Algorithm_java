@@ -13,26 +13,32 @@ public class Q1463_DP {
         N = Integer.parseInt(br.readLine());
         dp = new int[N+1];
 
-        Arrays.fill(dp, -1);
+        Arrays.fill(dp, N);
 
-        solveDp(N);
-        System.out.println(Arrays.toString(dp));
+        solveDp(N, 0);
+//        System.out.println(Arrays.toString(dp));
         System.out.println(dp[1]);
     }
 
-    static int solveDp(int n) {
-        if (dp[n] != -1) {
-            return dp[n];
+    static void solveDp(int n, int cnt) {
+        if (n == 0) return;
+        if (n == 1) {
+            dp[n] = cnt;
+            return;
         }
 
-        if (n % 3 == 0) {
-            dp[n] = Math.min(dp[n], solveDp(n / 3));
+        if (n % 3 == 0 && dp[n / 3] > cnt + 1) {
+            dp[n/3] = cnt+1;
+            solveDp(n / 3, cnt + 1);
         }
-        if (n % 2 == 0) {
-            dp[n] = Math.min(dp[n], solveDp(n / 2));
+        if (n % 2 == 0 && dp[n / 2] > cnt + 1) {
+            dp[n/2] = cnt+1;
+            solveDp(n / 2, cnt + 1);
         }
-        dp[n] = Math.min(dp[n], solveDp(n - 1));
+        if (dp[n-1] > cnt + 1) {
+            dp[n-1] = cnt+1;
+            solveDp(n -1, cnt + 1);
+        }
 
-        return dp[n];
     }
 }
