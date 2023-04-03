@@ -10,7 +10,7 @@ import java.util.LinkedList;
 import java.util.Queue;
 import java.util.StringTokenizer;
 
-public class swea_4192 {
+public class swea_4193 {
     static int[][] map;
     static int N;
     static int[] dr = new int[]{-1, 0, 1, 0};
@@ -52,27 +52,48 @@ public class swea_4192 {
         while (!que.isEmpty()) {
             int size = que.size();
             time++;
-            if (time % 3 < 2) {
+            if (time % 3 < 2) { // 소용돌이 있을 때
+                while (size-- > 0) {
+                    int[] point = que.poll();
+                    int r = point[0];
+                    int c = point[1];
+                    if (r == C && c == D) return time;
+                    for (int d = 0; d < 4; d++) {
+                        int nr = r + dr[d];
+                        int nc = c + dc[d];
+                        if(!check(nr, nc)) continue;
+                        if(visited[nr][nc]) continue;
+                        if(map[nr][nc] == 1) continue;
+                        if(map[nr][nc] == 2) {
+                            que.offer(new int[]{r, c});
+                            continue;
+                        }
+                        que.offer(new int[]{nr, nc});
+                        visited[nr][nc] = true;
 
-            }
-            if (time % 3 == 2) {
+                    }
 
-            }
-            /*while (size-- > 0) {
-                int[] point = que.poll();
-                int r = point[0];
-                int c = point[1];
-                if (r == C && c == D) return time;
-                for (int d = 0; d < 4; d++) {
-                    int nr = r + dr[d];
-                    int nc = c + dc[d];
-                    if(!check(nr, nc)) continue;
-                    if(visited[nr][nc]) continue;
-                    if(map[nr][nc]==1) continue;
-                    que.offer(new int[]{nr, nc});
-                    visited[nr][nc] = true;
                 }
-            }*/
+            }
+            if (time % 3 == 2) { // 소용돌이가 없을 때
+                while (size-- > 0) {
+                    int[] point = que.poll();
+                    int r = point[0];
+                    int c = point[1];
+                    if (r == C && c == D) return time;
+                    for (int d = 0; d < 4; d++) {
+                        int nr = r + dr[d];
+                        int nc = c + dc[d];
+                        if(!check(nr, nc)) continue;
+                        if(visited[nr][nc]) continue;
+                        if(map[nr][nc]==1) continue;
+                        que.offer(new int[]{nr, nc});
+                        visited[nr][nc] = true;
+                    }
+                }
+
+            }
+
         }
 
         return -1;
