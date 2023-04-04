@@ -11,7 +11,7 @@ public class form_DupliPermutation {
     public static void main(String[] args) throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         N = Integer.parseInt(br.readLine());
-        R = 3;
+        R = 6;
         p = new int[N];
         nums = new int[R];
         visited = new boolean[N];
