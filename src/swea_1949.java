@@ -55,7 +55,8 @@ public class swea_1949 {
 //                System.out.println(max+" " + map[i][j] + ", " + i + " " + j);
                 visited = new boolean[N][N];
                 visited[i][j] = true;
-                dfs(0, i, j, true);
+                dfs(1, i, j, true);
+                break;
             }
         }
     }
@@ -67,30 +68,31 @@ public class swea_1949 {
             int nc = c + dc[d];
             if (!check(nr, nc)) continue;
             if (visited[nr][nc]) continue;
-            if (!possible && map[r][c] <= map[nr][nc]) continue; // 탐색할 곳이 더 높은 경우인데 못깎을 경우
-            if (possible && map[r][c] <= map[nr][nc] && map[nr][nc] - map[r][c] > K) continue;
-
-            if (map[r][c] > map[nr][nc]) {
-                int tmp = map[nr][nc];
-                map[nr][nc] = map[r][c] -1;
-                visited[nr][nc] = true;
-                dfs(cnt + 1, nr, nc, possible);
-                visited[nr][nc] = false;
-                map[nr][nc] = tmp;
+            if (map[nr][nc] - map[r][c] >= K) continue;
+            int tmp = map[nr][nc];
+            if(possible) {
+                if (map[nr][nc] < map[r][c]) {
+                    visited[nr][nc] = true;
+                    dfs(cnt + 1, nr, nc, true);
+                    visited[nr][nc] = false;
+                }
+                else if (map[nr][nc] >= map[r][c]) {
+                    map[nr][nc] = map[r][c] -1;
+                    visited[nr][nc] = true;
+                    dfs(cnt + 1, nr, nc, false);
+                    visited[nr][nc] = false;
+                    map[nr][nc] = tmp;
+                }
             }
-            else if (map[r][c] <= map[nr][nc] && map[nr][nc] - map[r][c] <= K && possible) {
-                int tmp = map[nr][nc];
-                map[nr][nc] = map[r][c] -1;
-                visited[nr][nc] = true;
-                dfs(cnt + 1, nr, nc, false);
-                visited[nr][nc] = false;
-                map[nr][nc] = tmp;
-            }
-            else {
-                System.out.println('ㅋ');
+            else { // !possible
+                if (map[nr][nc] < map[r][c]) {
+                    visited[nr][nc] = true;
+                    dfs(cnt + 1, nr, nc, false);
+                    visited[nr][nc] = false;
+                }
             }
         }
-        answer = Math.max(answer, cnt + 1);
+        answer = Math.max(answer, cnt);
 
     }
 
