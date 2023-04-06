@@ -8,16 +8,14 @@ https://www.acmicpc.net/problem/16236
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.util.LinkedList;
-import java.util.PriorityQueue;
-import java.util.Queue;
-import java.util.StringTokenizer;
+import java.util.*;
 
 public class Q16236 {
     static int N;
     static int[][] map;
     static Shark shark;
-    static boolean[][] visited;
+    static boolean isEat = true;
+    static int time = 0;
     static int[] dr = {-1, 0, 1, 0};
     static int[] dc = {0, 1, 0, -1};
     static class Shark {
@@ -29,6 +27,15 @@ public class Q16236 {
             this.c = c;
             this.level = level;
             this.food = food;
+        }
+        public void eat(int fish) {
+            if (this.level > fish) {
+                this.food++;
+                if(food == level) {
+                    level++;
+                    food = 0;
+                }
+            }
         }
     }
     public static void main(String[] args) throws IOException {
@@ -48,10 +55,59 @@ public class Q16236 {
                 }
             }
         }
+        time = 0;
+        while (isEat) {
+            findFood();
+        }
+        System.out.println(time);
     }
 
+    public static void findFood() {
+        Queue<int[]> pq = new LinkedList<>();
+        boolean[][] visited = new boolean[N][N];
+        pq.offer(new int[]{shark.r, shark.c});
+        visited[shark.r][shark.c] = true;
+        ArrayList<int[]> list = new ArrayList<>();
+        isEat = false;
+        int cnt = -1;
+        while (!pq.isEmpty()) {
+            int size = pq.size();
+            cnt++;
+            while (size-- > 0) {
+                int[] point = pq.poll();
+                for (int i = 0; i < 4; i++) {
+                    int nr = point[0] + dr[i];
+                    int nc = point[1] + dc[i];
 
+                    if (!check(nr, nc)) continue;
+                    if (visited[nr][nc]) continue;
+                    if (map[nr][nc] == 0 || map[nr][nc] == shark.level) {
+                        pq.offer(new int[]{nr, nc});
+                        visited[nr][nc] = true;
+                    }
+                    if (map[nr][nc] != 0 && map[nr][nc] < shark.level) {
+                        isEat = true;
+                        list.add(new int[]{nr, nc});
+                    }
+                }
+            }
+        }
 
+        list.sort((e1, e2) -> {
+            if (e1[0] == e2[0]) {
+                return e1[1] - e2[1];
+            }
+            return e1[0] - e2[0];
+        });
+        if (isEat) {
+            int[] p = list.get(0);
+            shark.eat(map[p[0]][p[1]]);
+            shark.r = p[0];
+            shark.c = p[1];
+            map[p[0]][p[1]] = 0;
+            time += cnt;
+        }
+    }
     private static boolean check(int nr, int nc) {
         return 0 <= nr && nr < N && 0 <= nc && nc < N;
     }

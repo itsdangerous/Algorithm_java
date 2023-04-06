@@ -52,11 +52,9 @@ public class swea_1949 {
         for (int i = 0; i < N; i++) {
             for (int j = 0; j < N; j++) {
                 if (map[i][j] != max) continue;
-//                System.out.println(max+" " + map[i][j] + ", " + i + " " + j);
                 visited = new boolean[N][N];
                 visited[i][j] = true;
                 dfs(1, i, j, true);
-                break;
             }
         }
     }
