@@ -5,17 +5,15 @@ https://www.acmicpc.net/problem/16236
 
 
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
+import java.io.*;
 import java.util.*;
 
 public class Q16236 {
     static int N;
     static int[][] map;
     static Shark shark;
-    static boolean isEat = true;
-    static int time = 0;
+    static boolean isEat;
+    static int time;
     static int[] dr = {-1, 0, 1, 0};
     static int[] dc = {0, 1, 0, -1};
     static class Shark {
@@ -38,28 +36,40 @@ public class Q16236 {
             }
         }
     }
+    public static void setInputFile(String path, String fileName) throws FileNotFoundException {
+        String curWorkingDir = System.getProperty("user.dir");
+        System.setIn(new FileInputStream(curWorkingDir + path + fileName));
+    }
     public static void main(String[] args) throws IOException {
+        String remainPath = "\\src\\tc\\";
+        String fileName = "Q16236.txt";
+        setInputFile(remainPath, fileName);
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 
-        N = Integer.parseInt(br.readLine());
-        map = new int[N][N];
+        for (int T = 0; T < 7; T++) {
 
-        shark = new Shark(0, 0, 2, 0);
-        for (int i = 0; i < N; i++) {
-            StringTokenizer st = new StringTokenizer(br.readLine());
-            for (int j = 0; j < N; j++) {
-                map[i][j] = Integer.parseInt(st.nextToken());
-                if (map[i][j] == 9) {
-                    shark.r = i;
-                    shark.c = j;
+            N = Integer.parseInt(br.readLine());
+            map = new int[N][N];
+            time = 0;
+            isEat = true;
+
+            shark = new Shark(0, 0, 2, 0);
+            for (int i = 0; i < N; i++) {
+                StringTokenizer st = new StringTokenizer(br.readLine());
+                for (int j = 0; j < N; j++) {
+                    map[i][j] = Integer.parseInt(st.nextToken());
+                    if (map[i][j] == 9) {
+                        shark.r = i;
+                        shark.c = j;
+                    }
                 }
             }
+            time = 0;
+            while (isEat) {
+                findFood();
+            }
+            System.out.println(time);
         }
-        time = 0;
-        while (isEat) {
-            findFood();
-        }
-        System.out.println(time);
     }
 
     public static void findFood() {
@@ -78,7 +88,6 @@ public class Q16236 {
                 for (int i = 0; i < 4; i++) {
                     int nr = point[0] + dr[i];
                     int nc = point[1] + dc[i];
-
                     if (!check(nr, nc)) continue;
                     if (visited[nr][nc]) continue;
                     if (map[nr][nc] == 0 || map[nr][nc] == shark.level) {
@@ -88,6 +97,7 @@ public class Q16236 {
                     if (map[nr][nc] != 0 && map[nr][nc] < shark.level) {
                         isEat = true;
                         list.add(new int[]{nr, nc});
+                        visited[nr][nc] = true;
                     }
                 }
             }
@@ -99,6 +109,7 @@ public class Q16236 {
             }
             return e1[0] - e2[0];
         });
+
         if (isEat) {
             int[] p = list.get(0);
             shark.eat(map[p[0]][p[1]]);
@@ -106,6 +117,8 @@ public class Q16236 {
             shark.c = p[1];
             map[p[0]][p[1]] = 0;
             time += cnt;
+            System.out.printf("r = %d, c = %d, cnt = %d, time = %d\n", p[0], p[1], cnt, time);
+
         }
     }
     private static boolean check(int nr, int nc) {
