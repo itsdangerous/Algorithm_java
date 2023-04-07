@@ -6,20 +6,16 @@ https://www.acmicpc.net/problem/16236
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.io.PipedReader;
 import java.util.*;
 
-public class Q16236 {
+public class Q16236_PQ {
     static int N;
-    static boolean[][] visited;
-    static PriorityQueue<int[]> pq;
     static int[][] map;
     static Shark shark;
     static boolean isEat;
     static int time;
-    static int countTime;
     static int[] dr = {-1, 0, 1, 0};
-    static int[] dc = {0, -1, 0, 1};
+    static int[] dc = {0, 1, 0, -1};
     static class Shark {
         int r, c;
         int level;
@@ -66,61 +62,57 @@ public class Q16236 {
             findFood();
         }
         System.out.println(time);
+
     }
 
     public static void findFood() {
-
-        pq = new PriorityQueue<>((e1, e2) -> {
-            if (e1[0] == e2[0]) {
-                if (e1[1] == e2[1]) return e1[2] - e2[2];
-                else return e1[1] - e2[1];
-            }
+        Queue<int[]> que = new LinkedList<>();
+        PriorityQueue<int[]> pq = new PriorityQueue<>((e1, e2) -> {
+            if (e1[0] ==e2[0]) return e1[1] - e2[1];
             return e1[0] - e2[0];
         });
-        visited = new boolean[N][N];
-        pq.offer(new int[]{0, shark.r, shark.c});
+        boolean[][] visited = new boolean[N][N];
+        que.offer(new int[]{shark.r, shark.c});
         visited[shark.r][shark.c] = true;
-
+        ArrayList<int[]> list = new ArrayList<>();
         isEat = false;
-        countTime = 0;
-        while (!pq.isEmpty()) {
-            int[] point = pq.poll();
-            int t = point[0];
-            int r = point[1];
-            int c = point[2];
-
-            if (0 < map[r][c] && map[r][c] < shark.level) {
-                sharkEat(t, r, c);
-                break;
+        int cnt = 0;
+        while (!que.isEmpty()) {
+            int size = que.size();
+            cnt++;
+            while (size-- > 0) {
+                int[] point = que.poll();
+                for (int i = 0; i < 4; i++) {
+                    int nr = point[0] + dr[i];
+                    int nc = point[1] + dc[i];
+                    if (!check(nr, nc)) continue;
+                    if (visited[nr][nc]) continue;
+                    if (map[nr][nc] == 0 || map[nr][nc] == shark.level) {
+                        que.offer(new int[]{nr, nc});
+                        visited[nr][nc] = true;
+                    }
+                    if (map[nr][nc] != 0 && map[nr][nc] < shark.level) {
+                        isEat = true;
+                        pq.offer(new int[]{nr, nc});
+                        que.offer(new int[]{nr, nc});
+                        visited[nr][nc] = true;
+                    }
+                }
             }
-            for (int i = 0; i < 4; i++) {
-                int nr = r + dr[i];
-                int nc = c + dc[i];
-                if (!check(nr, nc)) continue;
-                if (visited[nr][nc]) continue;
-                if (map[nr][nc] > shark.level) continue;
-                pq.offer(new int[]{t+1, nr, nc});
-                visited[nr][nc] = true;
+            if (isEat) {
+                int[] p = pq.poll();
+                shark.eat(map[p[0]][p[1]]);
+                map[shark.r][shark.c] = 0;
+                shark.r = p[0];
+                shark.c = p[1];
+                map[p[0]][p[1]] = 0;
+                time += cnt;
+//                System.out.printf("r = %d, c = %d, cnt = %d, time = %d\n", p[0], p[1], cnt, time);
+                return;
             }
         }
-    }
-
-    private static void sharkEat(int t, int r, int c) {
-        isEat = true;
-        shark.eat(map[r][c]);
-        map[shark.r][shark.c] = 0;
-        shark.r = r;
-        shark.c = c;
-        time += t;
-        map[r][c] = 0;
-
-        visited = new boolean[N][N];
-        visited[shark.r][shark.c] = true;
-        pq.clear();
-        pq.offer(new int[]{0, shark.r, shark.c});
 
     }
-
     private static boolean check(int nr, int nc) {
         return 0 <= nr && nr < N && 0 <= nc && nc < N;
     }
