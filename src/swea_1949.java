@@ -19,9 +19,6 @@ public class swea_1949 {
             System.setIn(new FileInputStream(curWorkingDir + path + fileName));
         }
     public static void main(String[] args) throws IOException {
-        String remainPath = "\\src\\tc\\";
-        String fileName = "swea_1949.txt";
-        setInputFile(remainPath, fileName);
 
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         int T = Integer.parseInt(br.readLine());
