@@ -1,6 +1,7 @@
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.util.Arrays;
 import java.util.StringTokenizer;
 
 public class Q2931 {
@@ -64,24 +65,26 @@ public class Q2931 {
         }
 
         if (findCurve(map[r][c])) {
-//            System.out.println("_------------------------------_");
-//            System.out.println("r = " + r + "c = " + c);
-//            System.out.println("change 전");
-//            System.out.println(Arrays.toString(prevDirection));
-//            System.out.println(Arrays.toString(curDirection));
+            System.out.println("_------------------------------_");
+            System.out.println("r = " + r + "c = " + c);
+            System.out.println("change 전");
+            System.out.println(Arrays.toString(prevDirection));
+            System.out.println(Arrays.toString(curDirection));
             int tmpR = curDirection[0];
             int tmpC = curDirection[1];
+            changeDirection(map[r][c]);
             prevDirection[0] = tmpR;
             prevDirection[1] = tmpC;
-            changeDirection(map[r][c]);
+
             int nr = r + curDirection[0];
             int nc = c + curDirection[1];
-//            System.out.println("change 후");
-//            System.out.println(Arrays.toString(prevDirection));
-//            System.out.println(Arrays.toString(curDirection));
-//            System.out.println("c = " + map[r][c]);
-//            System.out.println("_------------------------------_");
-//            System.out.println("\n");
+
+            System.out.println("change 후");
+            System.out.println(Arrays.toString(prevDirection));
+            System.out.println(Arrays.toString(curDirection));
+            System.out.println("c = " + map[r][c]);
+            System.out.println("_------------------------------_");
+            System.out.println("\n");
             dfs(nr, nc);
         }
 
@@ -112,33 +115,39 @@ public class Q2931 {
 
     static void changeDirection(char c) {
         switch (c) {
-            case '1' -> {
+            case '1':
                 if (prevDirection[0] == 0 && prevDirection[1] == -1)  // <- 방향으로 들어왔다면
+                {
                     curDirection = new int[]{1, 0};
+                    System.out.println("여긴데... 왱 ㅏㄴ바낌");
+                }
                 if (prevDirection[0] == -1 && prevDirection[1] == 0) // ↑ 방향으로 들어왔다면
                     curDirection = new int[]{0, 1};
-            }
-            case '2' -> {
+                break;
+
+            case '2':
+
                 if (prevDirection[0] == 1 && prevDirection[1] == 0) // ↓ 방향으로 들어왔다면
                     curDirection = new int[]{0, 1};
                 if (prevDirection[0] == 0 && prevDirection[1] == -1) // <- 방향으로 들어왔다면
                     curDirection = new int[]{-1, 0};
-            }
-            case '3' -> {
+                break;
+
+            case '3':
                 if (prevDirection[0] == 1 && prevDirection[1] == 0) // ↓ 방향으로 들어왔다면
                     curDirection = new int[]{0, -1};
                 if (prevDirection[0] == 0 && prevDirection[1] == 1) // -> 방향으로 들어왔다면
-                {
                     curDirection = new int[]{-1, 0};
-                }
+                break;
 
-            }
-            case '4' -> {
+            case '4':
                 if (prevDirection[0] == 0 && prevDirection[1] == 1) // -> 방향으로 들어왔다면
                     curDirection = new int[]{1, 0};
+
                 if (prevDirection[0] == -1 && prevDirection[1] == 0) // ↑ 방향으로 들어왔다면
                     curDirection = new int[]{0, -1};
-            }
+                break;
+
         }
     }
 
