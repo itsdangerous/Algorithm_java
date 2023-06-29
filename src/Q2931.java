@@ -1,236 +1,242 @@
 import java.io.BufferedReader;
-import java.io.IOException;
 import java.io.InputStreamReader;
-import java.util.StringTokenizer;
+import java.util.LinkedList;
+import java.util.Queue;
 
 public class Q2931 {
-
-    static int R, C;
+    static int N;
+    static int M;
     static char[][] map;
-    static int[][] direction = new int[][]{{1, 0}, {0, 1}, {-1, 0}, {0, -1}}; // 하 우 상 좌
+    static int[] dx = {-1, 1, 0, 0};
+    static int[] dy = {0, 0, -1, 1};
 
-    static int[] curDirection;
-    static int[] prevDirection;
-
-    static int[] startPoint, endPoint;
-    static int[] answerPoint;
-    static int answerCurve = '*';
-
-    public static void main(String[] args) throws IOException {
+    public static void main(String[] args) throws Exception{
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        String[] input = br.readLine().split(" ");
+        N = Integer.parseInt(input[0]);
+        M = Integer.parseInt(input[1]);
+        map = new char[N][M];
+        Pair start = null;
 
-        StringTokenizer st = new StringTokenizer(br.readLine());
-
-        R = Integer.parseInt(st.nextToken());
-        C = Integer.parseInt(st.nextToken());
-        map = new char[R][C];
-
-        startPoint = new int[2];
-        endPoint = new int[2];
-        answerPoint = new int[]{-1, -1};
-        curDirection = new int[2];
-        prevDirection = new int[2];
-
-        // map 입력 받기
-        for (int i = 0; i < R; i++) {
+        for(int i=0; i<N; i++) {
             String str = br.readLine();
-            for (int j = 0; j < C; j++) {
+            for(int j=0; j<M; j++) {
                 map[i][j] = str.charAt(j);
-                if (map[i][j] == 'M') {
-                    startPoint = new int[]{i, j};
-                }
-                if (map[i][j] == 'Z') {
-                    endPoint = new int[]{i, j};
-                }
-            }
-        }
-        solve();
-    }
 
-    static void solve() {
-        dfs(startPoint[0], startPoint[1]);
-        System.out.print(answerPoint[0] + " " + answerPoint[1]+" ");
-        System.out.printf("%c", answerCurve);
-    }
-
-    static void dfs(int r, int c) {
-        if (map[r][c] == '.') {
-            char t = getCurve(r,c);
-            if (t != '0') {
-                answerPoint = new int[]{r + 1, c + 1};
-                answerCurve = t;
-            }
-            return;
-        }
-
-        if (findCurve(map[r][c])) {
-//            System.out.println("_------------------------------_");
-//            System.out.println("r = " + r + "c = " + c);
-//            System.out.println("change 전");
-//            System.out.println(Arrays.toString(prevDirection));
-//            System.out.println(Arrays.toString(curDirection));
-            int tmpR = curDirection[0];
-            int tmpC = curDirection[1];
-            prevDirection[0] = tmpR;
-            prevDirection[1] = tmpC;
-            changeDirection(map[r][c]);
-            int nr = r + curDirection[0];
-            int nc = c + curDirection[1];
-//            System.out.println("change 후");
-//            System.out.println(Arrays.toString(prevDirection));
-//            System.out.println(Arrays.toString(curDirection));
-//            System.out.println("c = " + map[r][c]);
-//            System.out.println("_------------------------------_");
-//            System.out.println("\n");
-            dfs(nr, nc);
-        }
-
-        if (map[r][c] == 'M') {
-            for (int i = 0; i < 4; i++) {
-                prevDirection[0] = direction[i][0];
-                prevDirection[1] = direction[i][1];
-                int nr = r + prevDirection[0];
-                int nc = c + prevDirection[1];
-                if (!check(nr, nc)) continue;
-                if (!findCurve(map[nr][nc])) continue;
-                curDirection[0] = direction[i][0];
-                curDirection[1] = direction[i][1];
-                dfs(nr, nc);
-
-            }
-        }
-
-    }
-
-    static boolean check(int r, int c) {
-        return 0 <= r && r < R && 0 <= c && c < C;
-    }
-
-    static boolean findCurve(char c) {
-        return c == '1' || c == '2' || c == '3' || c == '4' || c == '|' || c == '-' || c == '+';
-    }
-
-    static void changeDirection(char c) {
-        switch (c) {
-            case '1' -> {
-                if (prevDirection[0] == 0 && prevDirection[1] == -1)  // <- 방향으로 들어왔다면
-                    curDirection = new int[]{1, 0};
-                if (prevDirection[0] == -1 && prevDirection[1] == 0) // ↑ 방향으로 들어왔다면
-                    curDirection = new int[]{0, 1};
-            }
-            case '2' -> {
-                if (prevDirection[0] == 1 && prevDirection[1] == 0) // ↓ 방향으로 들어왔다면
-                    curDirection = new int[]{0, 1};
-                if (prevDirection[0] == 0 && prevDirection[1] == -1) // <- 방향으로 들어왔다면
-                    curDirection = new int[]{-1, 0};
-            }
-            case '3' -> {
-                if (prevDirection[0] == 1 && prevDirection[1] == 0) // ↓ 방향으로 들어왔다면
-                    curDirection = new int[]{0, -1};
-                if (prevDirection[0] == 0 && prevDirection[1] == 1) // -> 방향으로 들어왔다면
-                {
-                    curDirection = new int[]{-1, 0};
+                if(map[i][j]=='M') {
+                    start = new Pair(i, j, -1);
+                    map[i][j]='.';
                 }
 
+                if(map[i][j]=='Z')
+                    map[i][j]='.';
             }
-            case '4' -> {
-                if (prevDirection[0] == 0 && prevDirection[1] == 1) // -> 방향으로 들어왔다면
-                    curDirection = new int[]{1, 0};
-                if (prevDirection[0] == -1 && prevDirection[1] == 0) // ↑ 방향으로 들어왔다면
-                    curDirection = new int[]{0, -1};
+        }
+
+        for(int i=0; i<4; i++) {
+            int nx = start.x+dx[i];
+            int ny = start.y+dy[i];
+
+            if(nx<0 || nx>=N || ny<0 || ny>=M) continue;
+
+            if(map[nx][ny]!='.') {
+                bfs(start.x, start.y, i);
+                break;
             }
         }
     }
 
-    static char getCurve(int r, int c) {
-        for (int i = 0; i < 4; i++) {
-            int nr = r + direction[i][0];
-            int nc = c + direction[i][1];
-            if (!check(nr, nc)) continue;
-//            if(direction[i][0] == curDirection[0] && direction[i][1] == curDirection[1]) continue;
-            char t = getLink(curDirection, direction[i], map[nr][nc]);
-            if (t == '0') {
-               continue;
-            }
-            else {
-                return t;
+    public static void bfs(int x, int y, int idx) {
+        Queue<Pair> queue = new LinkedList<>();
+        queue.add(new Pair(x, y, idx));
+
+        loop:while(!queue.isEmpty()) {
+            Pair temp = queue.poll();
+            int nx = temp.x+dx[temp.idx];
+            int ny = temp.y+dy[temp.idx];
+
+            switch(map[nx][ny]) {
+                case '|':
+                    queue.add(new Pair(nx, ny, temp.idx));
+
+                    break;
+
+                case '-':
+                    queue.add(new Pair(nx, ny, temp.idx));
+
+                    break;
+
+                case '+':
+                    queue.add(new Pair(nx, ny, temp.idx));
+
+                    break;
+
+                case '1': {
+                    if(temp.idx==2) {
+                        queue.add(new Pair(nx, ny, 1));
+                    }
+
+                    else {
+                        queue.add(new Pair(nx, ny, 3));
+                    }
+                }
+                break;
+
+                case '2': {
+                    if(temp.idx==1) {
+                        queue.add(new Pair(nx, ny, 3));
+                    }
+
+                    else {
+                        queue.add(new Pair(nx, ny, 0));
+                    }
+                }
+                break;
+
+                case '3': {
+                    if(temp.idx==1) {
+                        queue.add(new Pair(nx, ny, 2));
+                    }
+
+                    else {
+                        queue.add(new Pair(nx, ny, 0));
+                    }
+                }
+                break;
+
+                case '4': {
+                    if(temp.idx==3) {
+                        queue.add(new Pair(nx, ny, 1));
+                    }
+
+                    else {
+                        queue.add(new Pair(nx, ny, 2));
+                    }
+                }
+                break;
+
+                case '.': {
+                    if(temp.idx==0) {
+                        char ans = ' ';
+                        int cnt = 0;
+
+                        if(nx>=1 && map[nx-1][ny]!='.' && map[nx-1][ny]!='-' && map[nx-1][ny]!='2' && map[nx-1][ny]!='3') {
+                            ans = '|';
+                            cnt++;
+                        }
+
+                        if(ny>=1 && map[nx][ny-1]!='.' && map[nx][ny-1]!='|' && map[nx][ny-1]!='3' && map[nx][ny-1]!='4') {
+                            ans = '4';
+                            cnt++;
+                        }
+
+                        if(ny<M-1 && map[nx][ny+1]!='.' && map[nx][ny+1]!='|' && map[nx][ny+1]!='1' && map[nx][ny+1]!='2') {
+                            ans = '1';
+                            cnt++;
+                        }
+
+                        if(cnt==3)
+                            System.out.println((nx+1)+" "+(ny+1)+" +");
+                        else
+                            System.out.println((nx+1)+" "+(ny+1)+" "+ans);
+
+                        break loop;
+                    }
+
+                    else if(temp.idx==1) {
+                        char ans = ' ';
+                        int cnt = 0;
+
+                        if(nx<N-1 && map[nx+1][ny]!='.' && map[nx+1][ny]!='-' && map[nx+1][ny]!='1' && map[nx+1][ny]!='4') {
+                            ans = '|';
+                            cnt++;
+                        }
+
+                        if(ny>=1 && map[nx][ny-1]!='.' && map[nx][ny-1]!='|' && map[nx][ny-1]!='3' && map[nx][ny-1]!='4') {
+                            ans = '3';
+                            cnt++;
+                        }
+
+                        if(ny<M-1 && map[nx][ny+1]!='.' && map[nx][ny+1]!='|' && map[nx][ny+1]!='1' && map[nx][ny+1]!='2') {
+                            ans = '2';
+                            cnt++;
+                        }
+
+                        if(cnt==3)
+                            System.out.println((nx+1)+" "+(ny+1)+" +");
+                        else
+                            System.out.println((nx+1)+" "+(ny+1)+" "+ans);
+
+                        break loop;
+                    }
+
+                    else if(temp.idx==2) {
+                        char ans = ' ';
+                        int cnt = 0;
+
+                        if(ny>=1 && map[nx][ny-1]!='.' && map[nx][ny-1]!='|' && map[nx][ny-1]!='3' && map[nx][ny-1]!='4') {
+                            ans = '-';
+                            cnt++;
+                        }
+
+                        if(nx>=1 && map[nx-1][ny]!='.' && map[nx-1][ny]!='-' && map[nx-1][ny]!='2' && map[nx-1][ny]!='3') {
+                            ans = '2';
+                            cnt++;
+                        }
+
+                        if(nx<N-1 && map[nx+1][ny]!='.' && map[nx+1][ny]!='-' && map[nx+1][ny]!='1' && map[nx+1][ny]!='4') {
+                            ans = '1';
+                            cnt++;
+                        }
+
+                        if(cnt==3)
+                            System.out.println((nx+1)+" "+(ny+1)+" +");
+                        else
+                            System.out.println((nx+1)+" "+(ny+1)+" "+ans);
+
+                        break loop;
+                    }
+
+                    else {
+                        char ans = ' ';
+                        int cnt = 0;
+
+                        if(ny<M-1 && map[nx][ny+1]!='.' && map[nx][ny+1]!='|' && map[nx][ny+1]!='1' && map[nx][ny+1]!='2') {
+                            ans = '-';
+                            cnt++;
+                        }
+
+                        if(nx>=1 && map[nx-1][ny]!='.' && map[nx-1][ny]!='-' && map[nx-1][ny]!='2' && map[nx-1][ny]!='3') {
+                            ans = '3';
+                            cnt++;
+                        }
+
+                        if(nx<N-1 && map[nx+1][ny]!='.' && map[nx+1][ny]!='-' && map[nx+1][ny]!='1' && map[nx+1][ny]!='4') {
+                            ans = '4';
+                            cnt++;
+                        }
+
+                        if(cnt==3)
+                            System.out.println((nx+1)+" "+(ny+1)+" +");
+                        else
+                            System.out.println((nx+1)+" "+(ny+1)+" "+ans);
+
+                        break loop;
+                    }
+                }
             }
         }
-        return '0';
     }
 
-    static char getLink(int[] prevDirection, int[] direction, char c) {
-        if (prevDirection[0] == 0 && prevDirection[1] == -1) { // <- 방향으로 들어왔다면
-            if (direction[0] == 0 && direction[1] == -1) { // <- 방향을 잇는다면
-                if (c == '|' || c == '3' || c == '4' || c == '.') return '0';
-                else return '-';
-            }
-            if(direction[0] == -1 && direction[1] == 0) { //   ↑ 방향을 잇는다면
-                if(c == '-' || c=='2' || c=='3' || c == '.') return '0';
-                else return '2';
-            }
-            if(direction[0] == 0 && direction[1] == 1) { // -> 방향을 잇는다면
-                return '0';
-            }
-            if(direction[0] == 1 && direction[1] == 0) { // ↓ 방향을 잇는다면
-                if(c == '-' || c =='1' || c=='4' || c =='.') return '0';
-                else return '1';
-            }
-        }
-        if (prevDirection[0] == -1 && prevDirection[1] == 0) { // ↑ 방향으로 들어왔다면
-            if (direction[0] == 0 && direction[1] == -1) { // <- 방향을 잇는다면
-                if (c == '|' || c == '3' || c == '4' || c == '.') return '0';
-                else return '4';
-            }
-            if(direction[0] == -1 && direction[1] == 0) { //   ↑ 방향을 잇는다면
-                if(c == '-' || c=='2' || c=='3' || c == '.') return '0';
-                else return '|';
-            }
-            if(direction[0] == 0 && direction[1] == 1) { // -> 방향을 잇는다면
-                if( c=='|' || c=='1' || c=='2' || c=='.') return '0';
-                else return '1';
-            }
-            if(direction[0] == 1 && direction[1] == 0) { // ↓ 방향을 잇는다면
-                return '0';
-            }
+    public static class Pair {
+        int x;
+        int y;
+        int idx;
 
+        public Pair(int x, int y, int idx) {
+            this.x = x;
+            this.y = y;
+            this.idx = idx;
         }
-        if (prevDirection[0] == 0 && prevDirection[1] == 1) { // -> 방향으로 들어왔다면
-            if (direction[0] == 0 && direction[1] == -1) { // <- 방향을 잇는다면
-                return '0';
-            }
-            if(direction[0] == -1 && direction[1] == 0) { //   ↑ 방향을 잇는다면
-                if(c == '-' || c=='2' || c=='3' || c == '.') return '0';
-                else return '3';
-            }
-            if(direction[0] == 0 && direction[1] == 1) { // -> 방향을 잇는다면
-                if( c=='|' || c=='1' || c=='2' || c=='.') return '0';
-                else return '-';
-            }
-            if(direction[0] == 1 && direction[1] == 0) { // ↓ 방향을 잇는다면
-                if(c == '-' || c =='1' || c=='4' || c =='.') return '0';
-                else return '4';
-            }
-        }
-
-        if (prevDirection[0] == 1 && prevDirection[1] == 0) { // ↓ 방향으로 들어왔다면
-            if (direction[0] == 0 && direction[1] == -1) { // <- 방향을 잇는다면
-                if (c == '|' || c == '3' || c == '4' || c == '.') return '0';
-                else return '3';
-            }
-            if(direction[0] == -1 && direction[1] == 0) { //   ↑ 방향을 잇는다면
-                return '0';
-            }
-            if(direction[0] == 0 && direction[1] == 1) { // -> 방향을 잇는다면
-                if( c=='|' || c=='1' || c=='2' || c=='.') return '0';
-                else return '2';
-            }
-            if(direction[0] == 1 && direction[1] == 0) { // ↓ 방향을 잇는다면
-                if(c == '-' || c =='1' || c=='4' || c =='.') return '0';
-                else return '|';
-            }
-
-        }
-        return '0';
     }
 }
