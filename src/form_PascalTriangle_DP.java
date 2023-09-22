@@ -1,10 +1,8 @@
-import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStreamReader;
 
 public class form_PascalTriangle_DP {
     public static void main(String[] args) throws IOException {
-        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        // BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 
         int n = 21;
         int[][] ncr = new int[n][n];
@@ -18,7 +16,7 @@ public class form_PascalTriangle_DP {
 
         for (int m = 1; m < n; m++) {
             for (int r = 0; r < m + 1; r++) {
-                System.out.print(ncr[m][r]+" ");
+                System.out.print(ncr[m][r] + " ");
             }
             System.out.println();
         }

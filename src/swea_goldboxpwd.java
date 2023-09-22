@@ -1,13 +1,15 @@
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.StringTokenizer;
 import java.util.TreeSet;
 
-public class swea_보물상자비번 {
+public class swea_goldboxpwd {
     static int N, K;
     static TreeSet<Integer> set;
+    static HashMap<String, Integer> map = new HashMap<>();
 
     public static void main(String[] args) throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
